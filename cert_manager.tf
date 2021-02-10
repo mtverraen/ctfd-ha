@@ -9,7 +9,7 @@ module "external_dns" {
   kubernetes_namespace       = kubernetes_namespace.external_dns.metadata.0.name
   cloudflare_email           = var.cloudflare_email
   cloudflare_api_key         = var.cloudflare_api_token
-
+  domain                     = var.domain
   depends_on = [
     google_container_cluster.apps,
     google_container_node_pool.apps

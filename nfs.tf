@@ -7,6 +7,6 @@ module "airflow_nfs" {
   zones     = ["europe-west1-b", "europe-west1-c"]
 
   volumes = {
-    "airflow-nfs-uploads" = 10
+    "nfs-uploads" = 10
   }
 }

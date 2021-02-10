@@ -61,7 +61,7 @@ resources:
 persistence:
   uploads:
     enabled: true
-    existingClaim: airflow-nfs-uploads
+    existingClaim: nfs-uploads
 
 metrics:
   enabled: true

@@ -12,10 +12,9 @@ spec:
 
     solvers:
     - selector: 
-        {{- range $domain := .Values.domains }}
         dnsNames: 
-        - {{ $domain }}
-        {{ end }}
+        - *.{{ .Values.domain }}
+        - *.ctf.{{ .Values.domain }}
       {{- if .Values.acme.http01.enabled }}
       http01:
         ingress:

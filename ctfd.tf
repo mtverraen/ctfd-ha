@@ -19,6 +19,7 @@ module "ctfd" {
     module.prometheus_stack,
     module.redis,
     module.mariadb,
-    module.airflow_nfs
+    module.airflow_nfs,
+    module.traefik
   ]
 }
