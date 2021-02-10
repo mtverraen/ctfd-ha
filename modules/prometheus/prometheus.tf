@@ -1,7 +1,7 @@
 data "template_file" "prometheus" {
   template = file("${path.root}/config/prometheus.yaml")
   vars = {
-    external_dns_ingress_dns = var.external_dns_ingress_dns
+    external_dns_ingress_dns     = var.external_dns_ingress_dns
     alertmanager_tls_secret_name = "alertmanager-${replace("${var.external_dns_ingress_dns}", ".", "-")}-tls"
 
     grafana_tls_secret_name = "grafana-${replace("${var.external_dns_ingress_dns}", ".", "-")}-tls"

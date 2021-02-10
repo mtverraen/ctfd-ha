@@ -14,16 +14,16 @@ terraform {
 }
 
 provider "google" {
-  project = var.google_project
-  region  = var.google_region
-  zone    = var.google_zone
+  project     = var.google_project
+  region      = var.google_region
+  zone        = var.google_zone
   credentials = "credentials.json"
 }
 
 provider "google-beta" {
-  project = var.google_project
-  region  = var.google_region
-  zone    = var.google_zone
+  project     = var.google_project
+  region      = var.google_region
+  zone        = var.google_zone
   credentials = "credentials.json"
 }
 

@@ -29,6 +29,11 @@ resource "helm_release" "letsencrypt" {
   depends_on = [helm_release.cert_manager]
 
   set {
+    name  = "domains[0]"
+    value = "*.${var.domain}"
+  }
+
+  set {
     name  = "acme.http01.enabled"
     value = false
   }

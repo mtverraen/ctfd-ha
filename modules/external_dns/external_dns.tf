@@ -8,11 +8,8 @@ resource "helm_release" "external_dns" {
   version    = var.external_dns_chart_version
   namespace  = var.external_dns_namespace
   timeout    = 600
-  
-  set {
-      name="domains[0]"
-      value="*.${var.domain}"
-  }
+
+
   /*
   set {
       name="domains[1]"

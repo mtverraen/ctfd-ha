@@ -1,3 +1,3 @@
 variable "namespace" {
-    default= "traefik"
+  default = "traefik"
 }

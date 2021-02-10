@@ -1,5 +1,7 @@
 # CTFd-HA
 
+High availablity deployment of CTFd on Kubernetes. 
+
 ## Setup
 
 variables can be added easily with a .tfvars file. See hs_ctf.tfvars

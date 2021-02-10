@@ -1,10 +1,10 @@
 module "ctfd" {
-  source           = "./modules/ctfd"
-  imageTag         = "mark-3.1.1"
-  replica_count    = "2"
-  workers          = "5"
-  namespace        = kubernetes_namespace.ctfd.metadata.0.name
-  domain    = var.domain
+  source        = "./modules/ctfd"
+  imageTag      = "mark-3.1.1"
+  replica_count = "2"
+  workers       = "5"
+  namespace     = kubernetes_namespace.ctfd.metadata.0.name
+  domain        = var.domain
   #ctfd_secret_key  = var.ctfd_secret_key
   mariadb_address  = "maria-db-mariadb"
   mariadb_password = random_string.maria_root_db_password.result

@@ -12,7 +12,7 @@ spec:
 
     solvers:
     - selector: 
-        {{- range $domain := .Values.ingress.domainNames }}
+        {{- range $domain := .Values.domains }}
         dnsNames: 
         - {{ $domain }}
         {{ end }}

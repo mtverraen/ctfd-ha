@@ -1,10 +1,10 @@
 
 
 module "prometheus_stack" {
-  source = "./modules/prometheus"
+  source                   = "./modules/prometheus"
   external_dns_ingress_dns = var.domain
 
-  namespace = kubernetes_namespace.monitoring.metadata[0].name
+  namespace                  = kubernetes_namespace.monitoring.metadata[0].name
   prometheus_stack_namespace = "monitoring"
   grafana_password           = var.grafana_password
 
