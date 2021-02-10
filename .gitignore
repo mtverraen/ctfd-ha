@@ -1,0 +1,4 @@
+.DS_Store
+.terraform
+credentials.json
+*.tfvars
