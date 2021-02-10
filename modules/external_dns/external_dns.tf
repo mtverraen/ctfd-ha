@@ -23,10 +23,6 @@ resource "helm_release" "external_dns" {
     name  = "policy"
     value = "upsert-only"
   }
-  set {
-    name  = "domains"
-    value = "upsert-only"
-  }
 
   set {
     name  = "source"

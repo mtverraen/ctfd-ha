@@ -2,7 +2,7 @@
 terraform {
   backend "gcs" {
     bucket      = "hsctf-bucket"
-    prefix      = "tf/blueteam2"
+    prefix      = "tf/blueteam3"
     credentials = "credentials.json"
   }
 }

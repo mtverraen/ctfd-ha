@@ -1,5 +1,4 @@
 name: letsencrypt
-domain:
 
 acme:
   server: https://acme-v02.api.letsencrypt.org/directory
@@ -11,8 +10,8 @@ acme:
     key: 
 
   http01:
-    enabled: false
-    ingressClass: kong
+    enabled: true
+    ingressClass: gce
 
   dnsName: 
   dns01:

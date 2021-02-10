@@ -11,10 +11,7 @@ spec:
       name: "{{ .Values.name }}-account-key"
 
     solvers:
-    - selector: 
-        dnsNames: 
-        - *.{{ .Values.domain }}
-        - *.ctf.{{ .Values.domain }}
+    - selector: {}
       {{- if .Values.acme.http01.enabled }}
       http01:
         ingress:
