@@ -28,5 +28,6 @@ resource "helm_release" "kong_prometheus_plugin" {
     name  = "prometheus.enabled"
     value = true
   }
+  depends_on = [ helm_release.kong ]
 }
 

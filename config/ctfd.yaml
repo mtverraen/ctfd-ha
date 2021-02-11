@@ -48,8 +48,7 @@ ingress:
   tls:
     - secretName: ${ctfd_tls_secret_name}
       hosts: 
-      - "*.${ctfd_domain}"
-      - "*.ctf.${ctfd_domain}"
+      - "${ctfd_domain}"
 
 resources:
   limits:
