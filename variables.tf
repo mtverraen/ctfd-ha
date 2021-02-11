@@ -18,7 +18,9 @@ variable "grafana_password" {}
 variable "prometheus_blackbox_enabled" {
   default = false
 }
-
+variable "kong_enabled" {
+  default = true
+}
 /*
 prometheus_blackbox_targets = [
   { name : "target1", url : "https://10.10.10.10:6443/" },

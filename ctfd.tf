@@ -20,6 +20,6 @@ module "ctfd" {
     module.redis,
     module.mariadb,
     module.airflow_nfs,
-    module.traefik
+    module.kong
   ]
 }

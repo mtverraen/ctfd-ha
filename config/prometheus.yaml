@@ -32,7 +32,7 @@ alertmanager:
   service:
     type: NodePort
   ingress:
-    enabled: true
+    enabled: false
     paths: ["/*"]
     hosts:
       - alertmanager.${external_dns_ingress_dns}
@@ -41,7 +41,8 @@ alertmanager:
         hosts:
           - alertmanager.${external_dns_ingress_dns}
     annotations:
-      kubernetes.io/ingress.class: gce
+      kubernetes.io/ingress.class: kong
+      konghq.com/protocols: "https"
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/tls-acme: "true"
       external-dns.alpha.kubernetes.io/hostname: alertmanager.${external_dns_ingress_dns}
@@ -90,9 +91,11 @@ prometheus:
         hosts:
           - prometheus.${external_dns_ingress_dns}
     annotations:
-      kubernetes.io/ingress.class: gce
+      kubernetes.io/ingress.class: kong
+      konghq.com/protocols: "https"
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.allow-http: "false"
       external-dns.alpha.kubernetes.io/hostname: prometheus.${external_dns_ingress_dns}
 
   prometheusSpec:
@@ -153,7 +156,7 @@ grafana:
   #adminPassword: admin
   grafana.ini:
     auth.anonymous:
-      enabled: true
+      enabled: false
       org_name: Bulderbank
   persistence:
     enabled: true
@@ -162,7 +165,7 @@ grafana:
       - ReadWriteOnce
     size: 8Gi
   env:
-    GF_AUTH_ANONYMOUS_ENABLED: true
+    GF_AUTH_ANONYMOUS_ENABLED: false
     GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
     GF_AUTH_ANONYMOUS_ORG_ROLE: Editor
   service:
@@ -177,9 +180,11 @@ grafana:
         hosts:
           - grafana.${external_dns_ingress_dns}
     annotations:
-      kubernetes.io/ingress.class: gce
+      kubernetes.io/ingress.class: kong
+      konghq.com/protocols: "https"
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.allow-http: "false"
       external-dns.alpha.kubernetes.io/hostname: grafana.${external_dns_ingress_dns}
   sidecar:
     dashboards:
