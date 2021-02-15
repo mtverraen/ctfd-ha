@@ -40,3 +40,22 @@ export GOOGLE_ENCRYPTION_KEY=$(openssl rand -base64 32)
 export GOOGLE_APPLICATION_CREDENTIALS=$PROJECT.json
 export GOOGLE_CREDENTIALS=$(cat $GOOGLE_APPLICATION_CREDENTIALS | tr -d '\n')
 ```
+
+## hs_ctf.tfvars
+```
+cert_manager_enabled        = "false"
+cloudflare_api_token        = ""
+cloudflare_email            = ""
+cloudflare_zone_id          = ""
+cluster_name                = ""
+domain                      = ""
+google_project              = ""
+google_region               = ""
+google_zone                 = ""
+grafana_password            = ""
+kong_enabled                = true
+node_pool_name              = ""
+prometheus_blackbox_enabled = false
+prometheus_blackbox_targets = ""
+storage_bucket              = ""
+```
