@@ -39,8 +39,8 @@ ingress:
     kubernetes.io/tls-acme: "true"
     external-dns.alpha.kubernetes.io/hostname: ${ctfd_domain}
     kubernetes.io/ingress.allow-http: "false"
-    #acme.cert-manager.io/http01-edit-in-place: "true"
-    #cert-manager.io/issue-temporary-certificate": "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/issue-temporary-certificate": "true"
 
   hosts:
     - host: ${ctfd_domain}
@@ -62,6 +62,7 @@ persistence:
   uploads:
     enabled: true
     existingClaim: nfs-uploads
+    storageClass: kw-nfs 
 
 metrics:
   enabled: true
