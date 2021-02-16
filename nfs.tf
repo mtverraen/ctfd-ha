@@ -1,3 +1,4 @@
+/*
 module "airflow_nfs" {
   source  = "kiwicom/gke-nfs/kubernetes"
   version = "0.1.0"
@@ -7,6 +8,6 @@ module "airflow_nfs" {
   zones     = ["europe-west1-b", "europe-west1-c"]
 
   volumes = {
-    "nfs-uploads" = 10
+    "uploads" = 10
   }
-}
+}*/

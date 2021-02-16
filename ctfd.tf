@@ -19,7 +19,7 @@ module "ctfd" {
     module.prometheus_stack,
     module.redis,
     module.mariadb,
-    module.airflow_nfs,
-    module.kong
+    module.kong,
+    kubernetes_persistent_volume_claim.example
   ]
 }

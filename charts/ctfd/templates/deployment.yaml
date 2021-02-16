@@ -19,6 +19,17 @@ spec:
         app.kubernetes.io/name: {{ include "ctfd.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: group-perm-fix
+          image: busybox:latest
+          command: ["sh", "-c", "chmod -R 777 /var/uploads"]
+          volumeMounts:
+            - name: uploads
+              mountPath: /var/uploads
+          securityContext:
+            capabilities:
+              add: ["SYS_ADMIN"]
+
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
