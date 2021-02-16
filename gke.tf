@@ -59,7 +59,7 @@ resource "google_container_node_pool" "apps" {
   }
 
   node_config {
-    preemptible  = true
+    preemptible  = false
     machine_type = "e2-standard-2"
 
     metadata = {
