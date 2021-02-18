@@ -29,6 +29,19 @@ resource "helm_release" "prometheus_stack" {
   }
 }
 
+resource "helm_release" "kong_prometheus_plugin" {
+
+  name       = "kong-prometheus-plugin"
+  chart      = "${path.root}/charts/kong-cluster-plugins"
+  version    = "0.1.0"
+  namespace  = var.kong_namespace
+
+  set {
+    name  = "prometheus.enabled"
+    value = true
+  }
+}
+
 /*
 resource "kubernetes_config_map" "grafana_dashboards" {
   metadata {
