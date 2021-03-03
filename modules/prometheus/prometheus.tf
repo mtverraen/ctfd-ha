@@ -42,7 +42,7 @@ resource "helm_release" "kong_prometheus_plugin" {
   }
 }
 
-/*
+
 resource "kubernetes_config_map" "grafana_dashboards" {
   metadata {
     name      = "grafana-dashboards"
@@ -54,9 +54,7 @@ resource "kubernetes_config_map" "grafana_dashboards" {
   }
 
   data = {
-    "kong-dashboard.json" = file("${path.root}/modules/monitoring/dashboards/kong-dashboard.json")
-    "ctfd-dashboard.json" = file("${path.root}/modules/monitoring/dashboards/ctfd-dashboard.json")
+    "ctfd-dashboard.json" = file("${path.root}/config/dashboards/ctfd-dashboard.json")
   }
 }
-*/
 
