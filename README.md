@@ -16,3 +16,6 @@ Pipeline must build docker-image / push to registry, then push to CTFd through A
 
 Look at [ctfup](https://github.com/csivitu/ctfup). This does not support different deployment models. We need CRDs like servicemonitors and the possiblity to expose loadbalancers. Challenges will either be exposed through Ingress or directly as a loadbalancer. 
 
+## Coms
+Monitoring goes through grafana. Unsure if we should make alertmanager alarms or just use grafana.
+Discord bot calling out first bloods could be cool: Kuwu-bot https://github.com/csivitu/Kuwu#installation
