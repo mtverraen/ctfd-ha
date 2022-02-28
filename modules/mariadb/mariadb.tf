@@ -11,7 +11,7 @@ resource "helm_release" "mariadb" {
 }
 
 data "template_file" "mariadb" {
-  template = file("${path.root}/config/mariadb.yaml")
+  template = file("${path.module}/mariadb.yaml")
   vars = {
     db_user  = var.db_user
     db_pwd   = var.db_password

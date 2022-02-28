@@ -1,0 +1,5 @@
+auth:
+  rootPassword: ${root_pwd}
+  username: ${db_user}
+  password: ${db_pwd}
+  database: ${db_name}

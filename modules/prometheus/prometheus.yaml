@@ -1,0 +1,79 @@
+prometheusOperator:
+  createCustomResource: ${prometheus_operator_create_crd}
+  configReloaderCpu: 130m
+  resources:
+    limits:
+      cpu: 700m
+      memory: 100Mi
+    requests:
+      cpu: 700m
+      memory: 100Mi
+  tlsProxy:
+    resources:
+      limits:
+        cpu: 50m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+
+  prometheusSpec:
+    #resources:
+    #  limits:
+    #    cpu: 1300m
+    #    memory: 8Gi
+    #  requests:
+    #    cpu: 1300m
+    #    memory: 2Gi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          # storageClassName: "-"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 100Gi
+
+grafana:
+  enabled: true
+  rbac:
+    create: true
+  adminUser: admin
+  #adminPassword: admin
+  grafana.ini:
+    auth.anonymous:
+      enabled: false
+      org_name: Bulderbank
+  persistence:
+    enabled: true
+    storageClassName: standard
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+  env:
+    GF_AUTH_ANONYMOUS_ENABLED: false
+    GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
+    GF_AUTH_ANONYMOUS_ORG_ROLE: Editor
+  service:
+    type: NodePort
+  ingress:
+    enabled: true
+    path: "/*"
+    hosts:
+      - grafana.${external_dns_ingress_dns}
+    tls:
+      - secretName: ${grafana_tls_secret_name}
+        hosts:
+          - grafana.${external_dns_ingress_dns}
+    annotations:
+      kubernetes.io/ingress.class: kong
+      konghq.com/protocols: "https"
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.allow-http: "false"
+      external-dns.alpha.kubernetes.io/hostname: grafana.${external_dns_ingress_dns}
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: ALL

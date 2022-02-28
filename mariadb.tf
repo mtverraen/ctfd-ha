@@ -6,11 +6,6 @@ module "mariadb" {
   db_password        = random_string.maria_db_password.result
   root_user_password = random_string.maria_root_db_password.result #ctfd uses this natively
 
-
-  depends_on = [
-    google_container_cluster.apps,
-    google_container_node_pool.apps
-  ]
 }
 
 resource "random_string" "maria_root_db_password" {

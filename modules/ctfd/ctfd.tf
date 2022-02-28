@@ -9,7 +9,7 @@ resource "helm_release" "ctfd" {
 }
 
 data "template_file" "ctfd" {
-  template = file("./ctfd.yaml")
+  template = file("${path.module}/ctfd.yaml")
   vars = {
     ctfd_domain               = "ctf.${var.domain}"
     replica_count             = 2

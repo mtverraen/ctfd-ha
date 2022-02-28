@@ -1,3 +1,12 @@
+# WIP 
+
+## TODO: 
+- Configure Kong
+- Setup dns and tls
+
+
+
+
 # CTFd-HA-v2
 
 V2 of HS-CTF infra. This year we're doing multicluster. The architecture will be fairly simple on the Kubernetes-side of things. Two clusters (red and blue), one for infra and one for challenges. This allows for tightening up the security individually. Considering if we should use Open policy agent to lock down blue even more, by disallowing certain pods to run. 

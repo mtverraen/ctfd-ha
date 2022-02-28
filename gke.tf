@@ -1,5 +1,5 @@
 
-resource "google_container_cluster" "core" {
+resource "google_container_cluster" "primary" {
   provider = google-beta
   name     = var.cluster_name
   location = var.google_zone
@@ -22,11 +22,6 @@ resource "google_container_cluster" "core" {
     start_time = "03:00"
     }
   }
-  # Workload Identity allows Kubernetes service accounts to act as a
-  # user-managed Google IAM Service Account.
-  workload_identity_config {
-    identity_namespace = "${var.google_project}.svc.id.goog"
-  }
 
   network_policy {
     enabled = true 
@@ -39,7 +34,7 @@ resource "google_container_cluster" "core" {
   }
 }
 
-resource "google_container_node_pool" "primary_preemptible_nodes" {
+resource "google_container_node_pool" "primary" {
   name       = "${var.cluster_name}-nodepool"
   location   = var.google_zone
   cluster    = google_container_cluster.primary.name
@@ -50,7 +45,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     machine_type = var.machine_type
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    service_account = google_service_account.default.email
+    //service_account = google_service_account.default.email
     oauth_scopes    = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
