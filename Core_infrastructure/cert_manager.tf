@@ -15,12 +15,12 @@ module "external_dns" {
 module "cert_manager" {
   source = "./modules/cert_manager"
 
-  cluster_id = google_container_node_pool.apps.name
+  cluster_id = google_container_node_pool.primary.name
 
   cert_manager_enabled       = var.cert_manager_enabled
   cert_manager_id            = "gke"
   cert_manager_project       = var.google_project
-  cert_manager_chart_version = "v0.6.7"
+  cert_manager_chart_version = "0.4.6"
   domain                     = var.root_domain
   kubernetes_namespace       = kubernetes_namespace.cert_manager.metadata.0.name
 
