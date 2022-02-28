@@ -1,0 +1,22 @@
+name: letsencrypt
+
+acme:
+  server: https://acme-v02.api.letsencrypt.org/directory
+  email: martin.tverraen@evry.com
+  apiVersion: cert-manager.io/v1alpha3
+
+  letsEncrypt:
+    name: lets-encrypt
+    key: 
+
+  http01:
+    enabled: true
+    ingressClass: kong
+
+  dnsName: 
+  dns01:
+    enabled: true
+    cnameStrategy: Follow
+    cloudflare:
+      secretName: cloudflare-api-key
+      apiKey:
