@@ -30,5 +30,5 @@ resource "helm_release" "rook_ceph_cluster" {
   values = [
     data.template_file.rook_ceph.rendered
   ]
-  depends_on =[helm_release.ceph_operator]
+  depends_on = [helm_release.ceph_operator]
 }

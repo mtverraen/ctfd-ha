@@ -1,9 +1,9 @@
 resource "kubernetes_namespace" "ctfd" {
 
   metadata {
-    name = "core"
+    name = "ctfd"
     labels = {
-      name = "core"
+      name = "ctfd"
     }
 
   }
