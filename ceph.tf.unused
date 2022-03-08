@@ -1,0 +1,29 @@
+module "ceph" {
+  count              = var.ceph_enabled ? 1 : 0
+  source             = "./modules/ceph"
+  ceph_namespace          = kubernetes_namespace.rook_ceph.metadata.0.name
+  depends_on = [
+    google_container_cluster.primary,
+    google_container_node_pool.primary
+  ]
+}
+
+resource "kubernetes_persistent_volume_claim" "ceph_fs" {
+  count              = var.ceph_enabled ? 1 : 0
+  metadata {
+    name = "ceph-pvc"
+    namespace = kubernetes_namespace.rook_ceph.metadata.0.name
+  }
+  spec {
+    access_modes = ["ReadWriteMany"]
+    storage_class_name = "ceph-filesystem"
+    resources {
+      requests = {
+        storage = "20Gi"
+      }
+    }
+  }
+  depends_on = [ 
+    module.ceph 
+  ]
+}

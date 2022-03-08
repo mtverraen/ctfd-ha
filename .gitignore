@@ -1,14 +1,14 @@
 # Local .terraform directories
 */.terraform/*
-*/.terraform/*
+*.terraform/*
 # .tfstate files
 *.tfstate
 */*.tfstate.*
-*/*.tfstate
+*.tfstate
 
 .DS_Store
-*/credentials.json
-*/*.tfvars
+credentials.json
+*.tfvars
 
 # Crash log files
 crash.log

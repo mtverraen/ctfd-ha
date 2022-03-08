@@ -1,0 +1,76 @@
+# Default values for ctfd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: ${replica_count}
+
+image:
+  repository: ctfd/ctfd
+  tag: ${image_tag}
+  pullPolicy: IfNotPresent
+  
+  #repository: mtverraen/heltsikker-ctfd
+  #pullPolicy: Always
+  #tag: latest
+env:
+  open:
+    SECRET_KEY: ${env_open_secret_key}
+    # Amount of CTFd workers
+    WORKERS: ${env_open_amt_workers}
+    # SQL Database URI. Example: mysql+pymysql://root:ctfd@db/ctfd
+    DATABASE_URL: ${env_open_database_uri}
+    # Redis URI. Example: redis://cache:6379
+    REDIS_URL: ${env_open_redis_uri}
+    REVERSE_PROXY: True 
+
+service:
+  sessionAffinity: ClientIP
+  type: NodePort
+  port: 80
+  targetPort: 8000
+  
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: kong
+    konghq.com/protocols: "https"
+    #external-dns.alpha.kubernetes.io/cloudflare-proxied: false 
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/tls-acme: "true"
+    external-dns.alpha.kubernetes.io/hostname: ${ctfd_domain}
+    kubernetes.io/ingress.allow-http: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    #cert-manager.io/issue-temporary-certificate": "true"
+
+  hosts:
+    - host: ${ctfd_domain}
+      path: "/*"
+  tls:
+    - secretName: ${ctfd_tls_secret_name}
+      hosts: 
+      - "${ctfd_domain}"
+
+resources:
+  limits:
+    cpu: 400m
+    memory: 256Mi
+  requests:
+    cpu: 400m
+    memory: 256Mi
+
+persistence:
+  uploads:
+    enabled: true
+    existingClaim: "ctfd"
+
+metrics:
+  enabled: true
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9104"
+
+  serviceMonitor:
+    enabled: true
+    namespace: ${service_monitor_namespace}
+    selector:
+      prometheus: kube-prometheus
