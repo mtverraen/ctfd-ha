@@ -64,7 +64,8 @@ probes:
     successThreshold: 1
     failureThreshold: 3
 
-ingress:
+ingress: 
+  ingressClassName:
   enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx

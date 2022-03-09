@@ -1,49 +1,153 @@
-
-# chart: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-blackbox-exporter
-#        https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+kind: Deployment
 restartPolicy: Always
-replicas: 1
+podDisruptionBudget: {}
+  # maxUnavailable: 0
+
+## Allow automount the serviceaccount token for sidecar container (eg: oauthproxy)
+automountServiceAccountToken: false
+
+## Additional blackbox-exporter container environment variables
+## For instance to add a http_proxy
+##
+## extraEnv:
+##   HTTP_PROXY: "http://superproxy.com:3128"
+##   NO_PROXY: "localhost,127.0.0.1"
+extraEnv: {}
+
+extraVolumes: []
+  # - name: secret-blackbox-oauth-htpasswd
+  #   secret:
+  #     defaultMode: 420
+  #     secretName: blackbox-oauth-htpasswd
+  # - name: storage-volume
+  #   persistentVolumeClaim:
+  #     claimName: example
+
+## Additional volumes that will be attached to the blackbox-exporter container
+extraVolumeMounts:
+  # - name: ca-certs
+  #   mountPath: /etc/ssl/certs/ca-certificates.crt
+
+## Additional InitContainers to initialize the pod
+##
+extraInitContainers: []
+
+extraContainers: []
+  # - name: oAuth2-proxy
+  #   args:
+  #     - -https-address=:9116
+  #     - -upstream=http://localhost:9115
+  #     - -skip-auth-regex=^/metrics
+  #     - -openshift-delegate-urls={"/":{"group":"monitoring.coreos.com","resource":"prometheuses","verb":"get"}}
+  #   image: openshift/oauth-proxy:v1.1.0
+  #   ports:
+  #       - containerPort: 9116
+  #         name: proxy
+  #   resources:
+  #       limits:
+  #         memory: 16Mi
+  #       requests:
+  #         memory: 4Mi
+  #         cpu: 20m
+  #   volumeMounts:
+  #     - mountPath: /etc/prometheus/secrets/blackbox-tls
+  #       name: secret-blackbox-tls
+
+## Enable pod security policy
 pspEnabled: true
 
-# https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md
-config:
-  # https://lyz-code.github.io/blue-book/devops/prometheus/blackbox_exporter/#blackbox-exporter-probes
+hostNetwork: false
 
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  type: RollingUpdate
+
+image:
+  repository: prom/blackbox-exporter
+  tag: v0.19.0
+  pullPolicy: IfNotPresent
+
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistrKeySecretName
+
+## User and Group to run blackbox-exporter container as
+runAsUser: 1000
+runAsGroup: 1000
+readOnlyRootFilesystem: true
+runAsNonRoot: true
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# if the configuration is managed as secret outside the chart, using SealedSecret for example,
+# provide the name of the secret here. If secretConfig is set to true, configExistingSecretName will be ignored
+# in favor of the config value.
+configExistingSecretName: ""
+# Store the configuration as a `Secret` instead of a `ConfigMap`, useful in case it contains sensitive data
+secretConfig: false
+config:
   modules:
     http_2xx:
       prober: http
       timeout: 5s
       http:
         valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
-        no_follow_redirects: false
+        follow_redirects: true
         preferred_ip_protocol: "ip4"
-        tls_config:
-          insecure_skip_verify: true
-    http_post_2xx:
-      prober: http
-      http:
-      method: POST
-    tcp_connect:
-      prober: tcp
-    pop3s_banner:
-      prober: tcp
-    tcp:
-      query_response:
-      - expect: "^+OK"
-      tls: true
-      tls_config:
-        insecure_skip_verify: false
-    ssh_banner:
-      prober: tcp
-      tcp:
-        query_response:
-        - expect: "^SSH-2.0-"
-    icmp:
-      prober: icmp
+
+
 serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
   enabled: true
+
+  # Default values that will be used for all ServiceMonitors created by `targets`
+  defaults:
+    additionalMetricsRelabels: {}
+    labels: {}
+    interval: 30s
+    scrapeTimeout: 30s
+    module: http_2xx
+  ## scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
+  scheme: http
+  ## tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
+  ## Of type: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#tlsconfig
+  tlsConfig: {}
+  bearerTokenFile:
+
   targets: 
     ${indent(4,targets)}
+#    - name: example                    # Human readable URL that will appear in Prometheus / AlertManager
+#      url: http://example.com/healthz  # The URL that blackbox will scrape
+#      labels: {}                       # Map of labels for ServiceMonitor. Overrides value set in `defaults`
+#      interval: 60s                    # Scraping interval. Overrides value set in `defaults`
+#      scrapeTimeout: 60s               # Scrape timeout. Overrides value set in `defaults`
+#      module: http_2xx                 # Module used for scraping. Overrides value set in `defaults`
+#      additionalMetricsRelabels: {}    # Map of metric labels and values to add
 
-prometheusRule:
+## Network policy for chart
+networkPolicy:
+  # Enable network policy and allow access from anywhere
   enabled: false
+  # Limit access only from monitoring namespace
+  # Before setting this value to true, you must add the name=monitoring label to the monitoring namespace
+  # Network Policy uses label filtering
+  allowMonitoringNamespace: false

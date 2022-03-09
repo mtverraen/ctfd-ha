@@ -31,8 +31,8 @@ service:
   
 ingress:
   enabled: true
+  ingressClass: kong
   annotations: 
-    kubernetes.io/ingress.class: kong
     konghq.com/protocols: "https"
     #external-dns.alpha.kubernetes.io/cloudflare-proxied: false 
     cert-manager.io/cluster-issuer: letsencrypt

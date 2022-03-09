@@ -2,7 +2,7 @@ name: letsencrypt
 
 acme:
   server: https://acme-v02.api.letsencrypt.org/directory
-  email: martin.tverraen@evry.com
+  email: martin.tverraen@accenture.com
   apiVersion: cert-manager.io/v1
 
   letsEncrypt:
