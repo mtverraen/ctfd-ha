@@ -31,7 +31,7 @@ service:
   
 ingress:
   enabled: true
-  ingressClass: kong
+  ingressClassName: kong
   annotations: 
     konghq.com/protocols: "https"
     #external-dns.alpha.kubernetes.io/cloudflare-proxied: false 
@@ -44,7 +44,7 @@ ingress:
 
   hosts:
     - host: ${ctfd_domain}
-      path: "/*"
+      path: "/"
   tls:
     - secretName: ${ctfd_tls_secret_name}
       hosts: 
