@@ -14,7 +14,7 @@ module "ctfd" {
   depends_on = [
     module.redis,
     module.mariadb,
-    module.kong,
+    module.nginx,
     module.prometheus_stack,
     kubernetes_persistent_volume_claim.ctfd
   ]

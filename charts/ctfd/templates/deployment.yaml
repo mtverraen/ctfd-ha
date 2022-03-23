@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "ctfd.fullname" . }}
   labels:
+    name: {{ include "ctfd.name" . }}
     app.kubernetes.io/name: {{ include "ctfd.name" . }}
     helm.sh/chart: {{ include "ctfd.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

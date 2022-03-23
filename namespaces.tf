@@ -12,6 +12,7 @@ resource "kubernetes_namespace" "ctfd" {
     google_container_node_pool.primary
   ]
 }
+
 /*
 resource kubernetes_namespace "rook_ceph" {
   count              = var.ceph_enabled ? 1 : 0
@@ -28,13 +29,13 @@ resource kubernetes_namespace "rook_ceph" {
   ]
 }
 */
-resource "kubernetes_namespace" "kong" {
-  count = var.kong_enabled ? 1 : 0
+resource "kubernetes_namespace" "nginx" {
   metadata {
-    labels = {
-      name = "kong"
+    annotations = {
+      name = "nginx"
     }
-    name = "kong"
+
+    name = "nginx"
   }
   depends_on = [
     google_container_cluster.primary,
