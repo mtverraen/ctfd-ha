@@ -1,6 +1,6 @@
 module "ctfd" {
   source        = "./modules/ctfd"
-  imageTag      = "3.4.0"
+  imageTag      = "mark-3.3.1"
   replica_count = "2"
   workers       = "5"
   namespace     = kubernetes_namespace.ctfd.metadata.0.name

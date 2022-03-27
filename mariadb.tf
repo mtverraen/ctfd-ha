@@ -4,7 +4,7 @@ module "mariadb" {
   db_name            = "ctfd"
   db_user            = "ctfd"
   db_password        = random_string.maria_db_password.result
-  root_user_password = random_string.maria_root_db_password.result #ctfd uses this natively
+  root_user_password = random_string.maria_root_db_password.result
 
   depends_on = [
     google_container_cluster.primary,

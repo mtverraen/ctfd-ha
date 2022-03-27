@@ -13,22 +13,6 @@ resource "kubernetes_namespace" "ctfd" {
   ]
 }
 
-/*
-resource kubernetes_namespace "rook_ceph" {
-  count              = var.ceph_enabled ? 1 : 0
-  metadata {
-    labels = {
-      name = "rook-ceph"
-    }
-    name = "rook-ceph"
-  }
-  
-  depends_on = [
-    google_container_cluster.primary,
-    google_container_node_pool.primary
-  ]
-}
-*/
 resource "kubernetes_namespace" "nginx" {
   metadata {
     annotations = {

@@ -32,6 +32,7 @@ resource "kubernetes_network_policy" "mariadb" {
   egress {} # single empty rule to allow all egress traffic
   policy_types = ["Ingress", "Egress"]
   }
+  depends_on = [kubernetes_namespace.ctfd]
 }
 
 resource "kubernetes_network_policy" "redis" {
@@ -68,4 +69,5 @@ resource "kubernetes_network_policy" "redis" {
     egress {} # single empty rule to allow all egress traffic
     policy_types = ["Ingress", "Egress"]
   } 
+  depends_on = [kubernetes_namespace.ctfd]
 }

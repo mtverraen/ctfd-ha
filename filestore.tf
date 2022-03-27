@@ -1,7 +1,7 @@
 resource "google_filestore_instance" "filestore" {
   provider = google-beta
   name     = "ctfd"
-  location = "europe-west1-b"
+  location = var.google_zone
   tier     = "BASIC_HDD"
 
   file_shares {

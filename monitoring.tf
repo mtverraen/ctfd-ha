@@ -10,9 +10,10 @@ module "prometheus_stack" {
 
   depends_on = [
     kubernetes_namespace.monitoring,
+    module.nginx
   ]
 }
-
+/*
 module "prometheus-blackbox-exporter" {
   count                       = var.prometheus_blackbox_enabled ? 1 : 0
   source                      = "./modules/prometheus_blackbox_exporter"
@@ -23,4 +24,4 @@ module "prometheus-blackbox-exporter" {
     kubernetes_namespace.monitoring
   ]
 }
-
+*/
